@@ -54,4 +54,8 @@ router.get('/:url_id', function(req, res, next) {
     });
 });
 
+router.get('/', function(req, res, next) {
+    res.send('welcome to my server');
+});
+
 module.exports = router;
