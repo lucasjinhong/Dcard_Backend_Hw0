@@ -17,7 +17,7 @@ router.post('/url',urlencodedParser, function(req, res, next) {
     };
 
     var shortId = short();
-    var shortenUrl = 'http://localhost:8000/' + shortId; 
+    var shortenUrl = 'http://35.77.213.217:8000/' + shortId; 
 
     res.send({_id:shortId, shortUrl:shortenUrl}); 
 

@@ -43,4 +43,4 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 app.listen(port);
-console.log('\nServer started at http://localhost:' + port );
+console.log('\nServer started at http://35.77.213.217:' + port );
