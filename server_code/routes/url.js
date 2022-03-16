@@ -43,19 +43,17 @@ router.get('/:url_id', function(req, res, next) {
         var dbo = db.db("Dcard_Backend");
   
         var query = {_id: url_id};
+
+        var projection = {url:1};
   
-        dbo.collection("url").find(query).toArray(function(err, result) {
+        dbo.collection("url").find(query).project(projection).toArray(function(err, result) {
           if (err) throw err;
           db.close();
           console.log('\nResult sent');
-          console.log(result[0].url);
-          res.redirect(result[0].url);
+          console.log(result[0]);
+          //res.redirect(result[0]);
         });
     });
-});
-
-router.get('/', function(req, res, next) {
-    res.send('welcome to my server');
 });
 
 module.exports = router;
