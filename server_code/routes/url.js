@@ -44,14 +44,14 @@ router.get('/:url_id', function(req, res, next) {
   
         var query = {_id: url_id};
 
-        var projection = {url:1};
+        var projection = {_id:0, url:1};
   
         dbo.collection("url").find(query).project(projection).toArray(function(err, result) {
           if (err) throw err;
           db.close();
           console.log('\nResult sent');
           console.log(result[0]);
-          //res.redirect(result[0]);
+          res.redirect(result[0].url);
         });
     });
 });
