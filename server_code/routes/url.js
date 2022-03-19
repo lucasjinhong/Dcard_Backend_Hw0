@@ -1,13 +1,17 @@
 var express = require("express");
 var router = express.Router();
 var short = require('shortid');
-var mongo = require('mongodb');
-
-var MongoClient = require('mongodb').MongoClient;
-var mongoUrl = "mongodb://localhost:27017/";
+var mysql = require('mysql');
 
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: false});
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "lucasjh",
+    password: "",
+    database: "dcard_hw0"
+});
 
 router.post('/url',urlencodedParser, function(req, res, next) {
     response = 
@@ -19,18 +23,15 @@ router.post('/url',urlencodedParser, function(req, res, next) {
     var shortId = short();
     var shortenUrl = 'http://35.77.213.217:8000/' + shortId; 
 
-    res.send({_id:shortId, shortUrl:shortenUrl}); 
-
-    MongoClient.connect(mongoUrl, function(err, db) {
+    var sql = "INSERT INTO shorten_url VALUES (?)";
+    var values = [shortId, shortenUrl, response.url, response.expireAt];
+    con.query(sql, [values], function (err, result) {
         if (err) throw err;
-        var dbo = db.db("Dcard_Backend");
-        var myobj = [{_id:shortId, url:response.url, expireAt:response.expireAt, shortUrl:shortenUrl}];
-        dbo.collection("url").insertMany(myobj, function(err, res) {
-          if (err) throw err;
-          console.log(res, '\n' , {_id:shortId, shortUrl:shortenUrl}, '\n');
-          db.close();
-        });
-    });
+        console.log("Number of records inserted: " + result.affectedRows);
+    }); 
+
+    console.log({_id:shortId, shortUrl:shortenUrl}, '\n');
+    res.send({_id:shortId, shortUrl:shortenUrl}); 
 });
 
 router.get('/:url_id', function(req, res, next) {
@@ -38,22 +39,13 @@ router.get('/:url_id', function(req, res, next) {
     var url_id = req.params.url_id;
     console.log(url_id);
 
-    MongoClient.connect(mongoUrl, function(err, db) {
+    var sql = 'SELECT url FROM shorten_url WHERE idshorten_url = ' + mysql.escape(url_id);
+    con.query(sql, function (err, result) {
         if (err) throw err;
-        var dbo = db.db("Dcard_Backend");
-  
-        var query = {_id: url_id};
-
-        var projection = {_id:0, url:1};
-  
-        dbo.collection("url").find(query).project(projection).toArray(function(err, result) {
-          if (err) throw err;
-          db.close();
-          console.log('\nResult sent');
-          console.log(result[0]);
-          res.redirect(result[0].url);
-        });
-    });
+        console.log('\nResult sent');
+        console.log(result[0].url);
+        res.redirect(result[0].url);
+    });     
 });
 
 module.exports = router;
