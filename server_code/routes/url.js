@@ -9,7 +9,7 @@ var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: false});
 var con = mysql.createConnection({
     host: "localhost",
     user: "lucasjh",
-    password: "",
+    password: "Jinhong253",
     database: "dcard_hw0"
 });
 
