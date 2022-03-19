@@ -39,7 +39,7 @@ router.get('/:url_id', function(req, res, next) {
     var url_id = req.params.url_id;
     console.log(url_id);
 
-    var sql = 'SELECT url FROM shorten_url WHERE idshorten_url = ' + mysql.escape(url_id);
+    var sql = 'SELECT url FROM shorten_url WHERE id_shorten = ' + mysql.escape(url_id);
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log('\nResult sent');
