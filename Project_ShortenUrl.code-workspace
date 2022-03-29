@@ -1,7 +1,8 @@
 {
-    "folders": [
-        {
-            "path": "server_code"
-        }
-    ]
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
 }
