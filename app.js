@@ -6,9 +6,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const port = process.env.PORT || 8000;
-
-var urlRouter = require('./server_code/routes/url');
+var urlRouter = require('./routes/url');
 
 var app = express();
 
@@ -17,6 +15,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -41,6 +41,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-app.listen(port);
-console.log('\nServer started at http://35.77.213.217:' + port );
