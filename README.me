@@ -1,1 +1,10 @@
-<h2>主要思路</h2>
+#主要思路
+其實我覺得這個專案的重點是如何能夠有效的轉換url以及shorten_url，以及各種邊界條件以達到減少多次搜尋database的狀況
+
+1.由於我目前專題所使用的預言是nodejs的express套件，且覺得這個預言較為簡單明瞭，所以將使用其作為這次開發專案的預言
+2.雖然說我比較長使用mongodb，但這次的databse使用的是mysql，對於資料固定的狀況來說sql會比nosql好用
+3.將url轉換至shorten_url，我所使用的是shortid套件，因無需浪費時間在對於url找出特定function，且shortid本身是獨立的，所以無需擔心重複的狀況
+4.在url的使用只使用了兩個API，一個POST至/url以及GET/url_id，至於url_id採用middleware，就不是使用原始的?=，這樣能夠確保url的乾淨
+5.在POST中會確立各種邊界條件，確保所輸入的格式必定是正確的且不為空，不會送達database後才發現放不進去
+6.在GET中也會確立shorten_url的邊界條件，先進行長度判斷以確立shorten_url是正確的，後在進行搜尋後若回傳值為空或已經過期，則進入404 not found
+7.若第7點運行沒問題則會直接redirect至原始url的網頁
