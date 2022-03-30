@@ -10,8 +10,8 @@ var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: false});
 var con = mysql.createConnection({
     host: "localhost",
     user: "lucasjh",
-    password: "",
-    //password: "Jinhong253",
+    //password: "",
+    password: "Jinhong253",
     database: "dcard_hw0"
 });
 
@@ -23,8 +23,9 @@ router.post('/url',urlencodedParser, function(req, res, next) {
     };
 
     var shortId = short(); //create a shorten_url by random
-    var shortenUrl = 'http://localhost:3000/' + shortId;
-    //var shortenUrl = 'http://35.77.213.217:3000/' + shortId;
+
+    //var shortenUrl = 'http://localhost:3000/' + shortId;
+    var shortenUrl = 'http://35.77.213.217:3000/' + shortId;
 
     if(response.url == "" || response.expiredAt == ""){
         //if the response content got null
@@ -54,8 +55,8 @@ router.get('/:url_id', function(req, res, next) {
         return next(createError(404, 'wrong length of shorten_url'))
     }
 
-    //var sql = 'SELECT * FROM shorten_url WHERE id_shorten = ' + mysql.escape(url_id);
-    var sql = 'SELECT * FROM shorten_url WHERE idshorten_url = ' + mysql.escape(url_id);
+    var sql = 'SELECT * FROM shorten_url WHERE id_shorten = ' + mysql.escape(url_id);
+    //var sql = 'SELECT * FROM shorten_url WHERE idshorten_url = ' + mysql.escape(url_id);
 
     con.query(sql, function (err, result) {
         if (err) throw err;
